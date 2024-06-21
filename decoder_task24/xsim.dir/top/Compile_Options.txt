@@ -1,1 +1,0 @@
-"decoder3x8_tb" -s "top" 
