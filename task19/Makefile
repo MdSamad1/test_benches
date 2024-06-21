@@ -4,7 +4,7 @@ MODULE += gray_to_binary_tb.sv
 
 TOP += gray_to_binary_tb
 
-vivado: 
+vivado: clean 
 	xvlog -sv ${MODULE} 
 	xelab ${TOP} -s top 
 	xsim top -runall

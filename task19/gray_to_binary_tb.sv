@@ -17,8 +17,8 @@ module gray_to_binary_tb;
 
   logic             clk;  // simulation timing clock
 
-  logic [WIDTH-1:0] gray;  // input data
-  logic [WIDTH-1:0] binary;  // parity out
+  logic [WIDTH-1:0] gray;  // gray input data
+  logic [WIDTH-1:0] binary;  // binary output data
 
   //////////////////////////////////////////////////////////////////////////////
   //-VARIABLES
@@ -79,19 +79,23 @@ module gray_to_binary_tb;
         logic [WIDTH-1:0] data;
         dvr_in_mbx.get(data);
         gray       <= data;
+        @(posedge clk);
      end
 
      forever begin // in monitor
         @ (posedge clk);
            moni_in_mbx.put(gray);
+           $display("Gray_input: %b",gray);
      end
 
      forever begin // out monitor
         @ (posedge clk);
            moni_out_mbx.put(binary);
+           $display("Binary_out: %b",binary);
      end
+    ////////////Scoreboard//////////////
 
-     forever begin // scoreboard
+     /*forever begin // ONE
         logic [WIDTH-1:0] data_in;
         logic [WIDTH-1:0] expected_out;
         moni_in_mbx.get(data_in);
@@ -100,9 +104,27 @@ module gray_to_binary_tb;
             if (data_in === expected_out) pass++;
             else                      fail++;
         end
+     end*/
+     forever begin
+         logic [WIDTH-1:0] expected_out;
+         logic [WIDTH-1:0] gray_in;
+         logic [WIDTH-1:0] binary_out;
+
+         moni_in_mbx.get(gray_in);
+         moni_out_mbx.get(binary_out);
+
+         expected_out[WIDTH-1] = gray_in[WIDTH-1];
+
+         for(int i = WIDTH-2; i >= 0; i = i-1) begin
+             expected_out[i] = expected_out[i+1]^gray_in[i];
+         end
+             if(expected_out === binary_out) pass++;
+             else fail++;
      end
     join_none
   endtask
+
+    ///////////////End Scoreboard////////////////
 
   //////////////////////////////////////////////////////////////////////////////
   //-PROCEDURALS
@@ -118,9 +140,13 @@ module gray_to_binary_tb;
     driver_monitor_scoreboard();
 
     // letting things run for 10 posedge of clk
-    repeat (10) @(posedge clk) begin
+    @(posedge clk); 
+    repeat(10) begin
         dvr_in_mbx.put($urandom);
     end
+
+    repeat(15) @(posedge clk);
+    //driver_monitor_scoreboard();
 
     // printing out number of passes out of total
     $display("\033[1;33m%0d/%0d PASSED\033[0m", pass, pass + fail);
