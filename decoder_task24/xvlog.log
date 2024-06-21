@@ -1,0 +1,4 @@
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/DSi/Desktop/samad/test_benches/decoder_task24/decoder3x8.sv" into library work
+INFO: [VRFC 10-311] analyzing module decoder3x8
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/DSi/Desktop/samad/test_benches/decoder_task24/tb/decoder3x8_tb.sv" into library work
+INFO: [VRFC 10-311] analyzing module decoder3x8_tb

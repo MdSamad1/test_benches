@@ -1,0 +1,226 @@
+$date
+   Fri Jun 21 18:38:03 2024
+$end
+
+$version
+  2024.1
+  $dumpfile ("dump.vcd") 
+$end
+
+$timescale
+  1ps
+$end
+
+$scope module decoder3x8_tb $end
+$var reg 1 ! clk $end
+$var reg 3 " in [2:0] $end
+$var reg 8 # out [7:0] $end
+$var reg 32 $ pass [31:0] $end
+$var reg 32 % fail [31:0] $end
+$var reg 32 & dvr_in_mbx $end
+$var reg 32 ' moni_in_mbx $end
+$var reg 32 ( moni_out_mbx $end
+$scope module dut01 $end
+$var wire 3 ) in [2:0] $end
+$var reg 8 # out [7:0] $end
+$upscope $end
+$scope task apply_reset $end
+$upscope $end
+$scope task start_clock $end
+$upscope $end
+$scope task driver_monitor_scoreboard $end
+$scope begin Block69_5 $end
+$var reg 3 * data_in [2:0] $end
+$upscope $end
+$scope begin Block90_9 $end
+$var reg 8 + expected_out [7:0] $end
+$var reg 3 , A [2:0] $end
+$var reg 8 - decoder_out [7:0] $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+
+#0
+$dumpvars
+x!
+bx "
+b0 #
+b0 $
+b0 %
+b100001101110010000000000111000 &
+b100001101110010000000010101000 '
+b100001101110010000000100011000 (
+bx )
+bx *
+bx +
+bx ,
+bx -
+$end
+
+#100000
+0!
+b0 "
+b1 #
+b0 )
+
+#200000
+1!
+b1 $
+b0 *
+b1 +
+b0 ,
+b1 -
+
+#205000
+0!
+
+#210000
+1!
+b100 "
+b10000 #
+b10 $
+b100 )
+b100 *
+
+#215000
+0!
+
+#220000
+1!
+b11 $
+b10000 +
+b100 ,
+b10000 -
+
+#225000
+0!
+
+#230000
+1!
+b110 "
+b1000000 #
+b100 $
+b110 )
+b110 *
+
+#235000
+0!
+
+#240000
+1!
+b101 "
+b100000 #
+b101 $
+b101 )
+b101 *
+b1000000 +
+b110 ,
+b1000000 -
+
+#245000
+0!
+
+#250000
+1!
+b0 "
+b1 #
+b110 $
+b0 )
+b0 *
+b100000 +
+b101 ,
+b100000 -
+
+#255000
+0!
+
+#260000
+1!
+b111 "
+b10000000 #
+b111 $
+b111 )
+b111 *
+b1 +
+b0 ,
+b1 -
+
+#265000
+0!
+
+#270000
+1!
+b110 "
+b1000000 #
+b1000 $
+b110 )
+b110 *
+b10000000 +
+b111 ,
+b10000000 -
+
+#275000
+0!
+
+#280000
+1!
+b100 "
+b10000 #
+b1001 $
+b100 )
+b100 *
+b1000000 +
+b110 ,
+b1000000 -
+
+#285000
+0!
+
+#290000
+1!
+b1010 $
+b10000 +
+b100 ,
+b10000 -
+
+#295000
+0!
+
+#300000
+1!
+b1011 $
+
+#305000
+0!
+
+#310000
+1!
+b1100 $
+
+#315000
+0!
+
+#320000
+1!
+b1101 $
+
+#325000
+0!
+
+#330000
+1!
+b1110 $
+
+#335000
+0!
+
+#340000
+1!
+b1111 $
+
+#345000
+0!
+
+#350000
+1!

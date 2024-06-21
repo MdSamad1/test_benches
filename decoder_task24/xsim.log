@@ -1,0 +1,65 @@
+#-----------------------------------------------------------
+# xsim v2024.1 (64-bit)
+# SW Build 5076996 on Wed May 22 18:37:14 MDT 2024
+# IP Build 5075265 on Wed May 22 21:45:21 MDT 2024
+# SharedData Build 5076995 on Wed May 22 18:29:18 MDT 2024
+# Start of session at: Fri Jun 21 18:38:02 2024
+# Process ID: 11780
+# Current directory: C:/Users/DSi/Desktop/samad/test_benches/decoder_task24
+# Command line: xsim.exe -mode tcl -source {xsim.dir/top/xsim_script.tcl}
+# Log file: C:/Users/DSi/Desktop/samad/test_benches/decoder_task24/xsim.log
+# Journal file: C:/Users/DSi/Desktop/samad/test_benches/decoder_task24\xsim.jou
+# Running On        :DESKTOP-TPQE4J8
+# Platform          :Windows Server 2016 or Windows 10
+# Operating System  :19045
+# Processor Detail  :12th Gen Intel(R) Core(TM) i7-1255U
+# CPU Frequency     :2611 MHz
+# CPU Physical cores:10
+# CPU Logical cores :12
+# Host memory       :34029 MB
+# Swap memory       :2147 MB
+# Total Virtual     :36176 MB
+# Available Virtual :25432 MB
+#-----------------------------------------------------------
+source xsim.dir/top/xsim_script.tcl
+# xsim {top} -autoloadwcfg -runall
+Time resolution is 1 ps
+run -all
+[7;36m TEST STARTED [0m
+Output: 00000001
+input: 000
+input: 000
+Output: 00000001
+Output: 00010000
+input: 100
+input: 100
+Output: 00010000
+Output: 01000000
+input: 110
+input: 101
+Output: 00100000
+Output: 00000001
+input: 000
+input: 111
+Output: 10000000
+Output: 01000000
+input: 110
+input: 100
+Output: 00010000
+Output: 00010000
+input: 100
+input: 100
+Output: 00010000
+Output: 00010000
+input: 100
+input: 100
+Output: 00010000
+Output: 00010000
+input: 100
+input: 100
+Output: 00010000
+[1;33m15/15 PASSED[0m
+[7;36m TEST ENDED [0m
+$finish called at time : 350 ns : File "C:/Users/DSi/Desktop/samad/test_benches/decoder_task24/tb/decoder3x8_tb.sv" Line 142
+exit
+INFO: [Common 17-206] Exiting xsim at Fri Jun 21 18:38:04 2024...
