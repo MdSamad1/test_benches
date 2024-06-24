@@ -13,7 +13,7 @@ module demux_1_to_4 (
             2'b00: data_out[0] = data_in;
             2'b01: data_out[1] = data_in;
             2'b10: data_out[2] = data_in;
-            2'b11: data_out[3] = data_in;
+            2'b11: data_out[3] = data_in;// 
             default: data_out = 4'b0000; // Default case, though not strictly necessary
         endcase
     end
