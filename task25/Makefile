@@ -9,6 +9,6 @@ vivado: clean
 	xsim top -runall
 
 clean: 
-	rm -rf xsim.dir *.log *.pb *.jou
+	rm -rf xsim.dir *.log *.pb *.jou *.vcd *.wdb
 
 PHONY:	vivado clean
