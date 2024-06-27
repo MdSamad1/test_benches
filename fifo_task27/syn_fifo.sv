@@ -1,3 +1,4 @@
+`timescale 1ns/1ns
 module syn_fifo #(parameter DEPTH=8, DATA_WIDTH=8) (
   input clk, rst_n,
   input w_en, r_en,
@@ -13,34 +14,30 @@ module syn_fifo #(parameter DEPTH=8, DATA_WIDTH=8) (
   // Set Default values on reset.
   always@(posedge clk) begin
     if(!rst_n) begin
-      w_ptr <= 0; r_ptr <= 0;
-      data_out <= 0;
+      w_ptr <= 0;
+      r_ptr <= 0;
       count <= 0;
+      $display("HERE --------------------------------------------------------------------------------------------------------");
     end
     else begin
-      case({w_en,r_en})
-        2'b00, 2'b11: count <= count;
-        2'b01: count <= count - 1'b1;
-        2'b10: count <= count + 1'b1;
-      endcase
+        case({w_en && ~full,r_en && ~empty})
+      //case({w_en,r_en})
+     
+            2'b01: count <= count - 1;
+            2'b10: count <= count + 1;
+            default: count <= count;
+        endcase
+        if(w_en & !full)begin
+            fifo[w_ptr] <= data_in;
+            w_ptr <= w_ptr + 1;
+        end
+        if(r_en & !empty) begin
+            data_out <= fifo[r_ptr]; // To read data from FIFO
+            r_ptr <= r_ptr + 1;
+        end
     end
   end
   
-  // To write data to FIFO
-  always@(posedge clk) begin
-    if(w_en & !full)begin
-      fifo[w_ptr] <= data_in;
-      w_ptr <= w_ptr + 1;
-    end
-  end
-  
-  // To read data from FIFO
-  always@(posedge clk) begin
-    if(r_en & !empty) begin
-      data_out <= fifo[r_ptr];
-      r_ptr <= r_ptr + 1;
-    end
-  end
   
   assign full = (count == DEPTH)? 1'b1 : 1'b0;
   assign empty = (count == 0)? 1'b1 : 1'b0;

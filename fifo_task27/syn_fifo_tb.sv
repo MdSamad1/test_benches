@@ -1,8 +1,10 @@
+`timescale 1ns/1ns
+
 module syn_fifo_tb;
 
     // Marking the start and end of Simulation
-    initial $display("\033[7;36m TEST STARTED \033[0m");
-    final   $display("\033[7;36m TEST ENDED \033[0m");
+    initial $display("\033[7;36m [time: %t] TEST STARTED \033[0m",$time);
+    final   $display("\033[7;36m [time: %t]TEST ENDED \033[0m",$time);
 
     ////////////////////////////////////////////////////////////////////////////
     // LOCAL PARAMETERS
@@ -79,12 +81,13 @@ module syn_fifo_tb;
     // Apply system reset and initialize all inputs
     task static apply_reset();
         #10ns;
-        clk   <= '0;
-        rst_n <= '0;
-        w_en  <= '0;
-        r_en  <= '0;
-        #10ns;
-        rst_n <= '1;
+        clk     <= '0;
+        rst_n   <= '0;
+        w_en    <= '0;
+        r_en    <= '0;
+        data_in <= '0;
+        #5ns;
+        rst_n   <= '1;
     endtask
 
     // start toggling system clock forever every 5ns
@@ -123,9 +126,9 @@ module syn_fifo_tb;
                 mon_DataIn_mbx.put(data_in);
                 mon_wEn_mbx.put(w_en);
                 mon_rEn_mbx.put(r_en);
-                $display("Input Data: %b",data_in);
-                $display("Write Enable: %b",w_en);
-                $display("Read Enable: %b",r_en);
+                $display("[%0t]Input Data: %b",$time,data_in);
+                $display("[%0t]Write Enable: %b",$time,w_en);
+                $display("[%0t]Read Enable: %b",$time,r_en);
             end
 
             forever begin // out monitor
@@ -133,9 +136,9 @@ module syn_fifo_tb;
                 mon_DataOut_mbx.put(data_out);
                 mon_full_mbx.put(full);
                 mon_empty_mbx.put(empty);
-                $display("Output data: %b",data_out);
-                $display("full: %b",full);
-                $display("empty: %b",empty);
+                $display("[%0t]Output data: %b",$time,data_out);
+                $display("[%0t]full: %b",$time,full);
+                $display("[%0t]empty: %b",$time,empty);
             end
             ////////////Scoreboard//////////////
 
@@ -161,11 +164,14 @@ module syn_fifo_tb;
                    wdata_q.push_back(dataIn_s);
                end
                if (r_en & !empty_s) begin
-                   #2;
                    wdata = wdata_q.pop_front();
                end
                if(wdata === dataOut_s) pass++;
-               else fail++;
+               //if(data_in === data_out) pass++;
+               else begin
+                   fail++;
+                   $error("Time = %0t: Comparison Failed: expected wr_data = %h, rd_data = %h", $time, wdata, dataOut_s);
+               end
             end
         join_none
     endtask
@@ -180,8 +186,8 @@ module syn_fifo_tb;
         $dumpfile("dump.vcd");
         $dumpvars;
 
-        apply_reset();
         start_clock();
+        apply_reset();
 
         driver_monitor_scoreboard();
 
@@ -190,19 +196,22 @@ module syn_fifo_tb;
             fork
                 for (int i=0; i<30; i++) begin
                     @(posedge clk);
-                    dvr_DataIn_mbx.put($urandom);
-                    dvr_wEn_mbx.put(i%2);
-                    $display("[%t] w_en: %d",$time,w_en);
+                    if((i%2==1)&& !full) begin
+                        dvr_DataIn_mbx.put($urandom);
+                        dvr_wEn_mbx.put(i%2);
+                        $display("[%t] w_en: %d",$time,w_en);
+                    end
                 end
-                for (int i=0; i<30; i++) begin
+                for (int i=1; i<31; i++) begin
                     @(posedge clk);
-                    #2;
-                    dvr_rEn_mbx.put(i%2);
-                    $display("[%t] r_en: %d",$time,r_en);
+                    if(i%2) begin
+                        dvr_rEn_mbx.put(1);
+                        $display("[%t] r_en: %d",$time,r_en);
+                    end
                 end
             join
 
-        repeat(15) @(posedge clk);
+       repeat(30) @(posedge clk);
         //driver_monitor_scoreboard();
 
         // printing out number of passes out of total

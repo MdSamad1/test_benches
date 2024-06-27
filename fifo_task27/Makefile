@@ -1,4 +1,6 @@
 MODULE += syn_fifo.sv
+MODULE += syn_fifo01.sv
+MODULE += syn_fifo03.sv
 MODULE += syn_fifo_tb.sv
 
 TOP += syn_fifo_tb
